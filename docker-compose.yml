@@ -57,13 +57,13 @@ services:
     ports:
       - "8080:8080"
     environment:
-      - LINE_CHANNEL_ACCESS_TOKEN=7zodA9oH/KudRAQT95HzFFah5XoHPe/fhYpWw4NosMLsH/ljmY7gIiMHwSjoWv32R9K1gISwG/Td8pgr9zB8VQCJ1sXrls/fSIVZqKBrB8p1hgZUf90kgaOZs4u7cmE/7/9WNXPRLQSQg+G2wHLtCgdB04t89/1O/w1cDnyilFU=
-      - LINE_TARGET_ID=U35053c3520909c018d0400f5742b0bee
-      - SMTP_SERVER=smtp.ait.ac.th
+      - LINE_CHANNEL_ACCESS_TOKEN=
+      - LINE_TARGET_ID=
+      - SMTP_SERVER=smtp.gmail.com
       - SMTP_PORT=25
-      - SMTP_USERNAME=sanit@ait.asia
+      - SMTP_USERNAME=sanit
       - SMTP_PASSWORD=
-      - EMAIL_TO=sanit@ait.asia
+      - EMAIL_TO=sanit
     networks:
       - monitoring
 
