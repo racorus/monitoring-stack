@@ -1,0 +1,47 @@
+groups:
+- name: server_alerts
+  rules:
+  - alert: HighTemperature
+    expr: node_thermal_zone_temp > 80 or node_hwmon_temp_celsius > 80
+    for: 2m
+    labels:
+      severity: critical
+    annotations:
+      summary: "AIT-Prometheus: Critical Temperature!!"
+      description: "Server {{ $labels.server_name }} ({{ $labels.instance }}) มีอุณหภูมิ {{ $value }}°C ซึ่งสูงเกินไป"
+  
+  - alert: HighCPUUsage
+    expr: 100 - (avg by(instance, server_name) (irate(node_cpu_seconds_total{mode="idle"}[5m])) * 100) > 90
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "AIT-Prometheus:High CPU Usage "
+      description: "Server {{ $labels.server_name }} ({{ $labels.instance }}) มีการใช้งาน CPU {{ $value | printf \"%.2f\" }}% ซึ่งสูงเกินไป"
+  
+  - alert: HighMemoryUsage
+    expr: (node_memory_MemTotal_bytes - node_memory_MemAvailable_bytes) / node_memory_MemTotal_bytes * 100 > 90
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "AIT-Prometheus: High Memory Usge"
+      description: "Server {{ $labels.server_name }} ({{ $labels.instance }}) มีการใช้งานหน่วยความจำ {{ $value | printf \"%.2f\" }}% ซึ่งสูงเกินไป"
+  
+  - alert: DiskSpaceLow
+    expr: (node_filesystem_avail_bytes{mountpoint="/"} / node_filesystem_size_bytes{mountpoint="/"}) * 100 < 10
+    for: 5m
+    labels:
+      severity: warning
+    annotations:
+      summary: "AIT-Prometheus: DiskSpace Low"
+      description: "Server {{ $labels.server_name }} ({{ $labels.instance }}) มีพื้นที่ดิสก์เหลือ {{ $value | printf \"%.2f\" }}% ซึ่งน้อยเกินไป"
+  
+  - alert: ServerDown
+    expr: up == 0
+    for: 1m
+    labels:
+      severity: critical
+    annotations:
+      summary: "AIT-Prometheus: Server Down/Unable to Access"
+      description: "Server {{ $labels.server_name }} ({{ $labels.instance }}) ไม่สามารถเข้าถึงได้"

@@ -1,0 +1,55 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+alerting:
+  alertmanagers:
+    - static_configs:
+        - targets: ['alertmanager:9093']
+
+rule_files:
+  - "/etc/prometheus/rules/*.yml"
+
+scrape_configs:
+  - job_name: 'prometheus'
+    static_configs:
+      - targets: ['localhost:9090']
+
+  - job_name: 'proxmox_servers'
+    static_configs:
+      - targets: ['10.0.10.91:9100']
+        labels:
+          server_name: 'Vida01'
+          server_type: 'proxmox'
+      - targets: ['10.0.10.92:9100']
+        labels:
+          server_name: 'Vida02'
+          server_type: 'proxmox'
+      - targets: ['10.0.10.93:9100']
+        labels:
+          server_name: 'Vida03'
+          server_type: 'proxmox'
+      - targets: ['10.0.10.94:9100']
+        labels:
+          server_name: 'Vida04'
+          server_type: 'proxmox'
+      - targets: ['10.0.10.96:9100']
+        labels:
+          server_name: 'Feliz01'
+          server_type: 'proxmox'
+      - targets: ['10.0.10.97:9100']
+        labels:
+          server_name: 'Feliz02'
+          server_type: 'proxmox'
+      - targets: ['10.0.10.98:9100']
+        labels:
+          server_name: 'Feliz03'
+          server_type: 'proxmox'
+      - targets: ['10.0.10.99:9100']
+        labels:
+          server_name: 'Feliz04'
+          server_type: 'proxmox'
+      - targets: ['10.0.10.101:9100']
+        labels:
+          server_name: 'Feliz05'
+          server_type: 'proxmox'

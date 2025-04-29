@@ -1,0 +1,18 @@
+{
+  "servers": [
+    {"name": "Vida01", "ip": "10.0.10.91", "port": 9100},
+    {"name": "Vida02", "ip": "10.0.10.92", "port": 9100},
+    {"name": "Vida03", "ip": "10.0.10.93", "port": 9100},
+    {"name": "Vida04", "ip": "10.0.10.94", "port": 9100},
+    {"name": "Feliz01", "ip": "10.0.10.96", "port": 9100},
+    {"name": "Feliz02", "ip": "10.0.10.97", "port": 9100},
+    {"name": "Feliz03", "ip": "10.0.10.98", "port": 9100},
+    {"name": "Feliz04", "ip": "10.0.10.99", "port": 9100},
+    {"name": "Feliz05", "ip": "10.0.10.101", "port": 9100}
+  ],
+  "services": [
+    {"name": "prometheus", "host": "prometheus", "port": 9090, "health_endpoint": "/-/healthy"},
+    {"name": "alertmanager", "host": "alertmanager", "port": 9093, "health_endpoint": "/-/healthy"},
+    {"name": "grafana", "host": "grafana", "port": 3000, "health_endpoint": "/api/health"}
+  ]
+}

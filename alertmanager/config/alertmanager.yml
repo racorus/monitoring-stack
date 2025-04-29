@@ -1,0 +1,15 @@
+global:
+  resolve_timeout: 5m
+
+route:
+  group_by: ['alertname', 'server_name', 'severity']  # Add severity
+  group_wait: 10s
+  group_interval: 1m
+  repeat_interval: 1h
+  receiver: 'line-and-email-notifier'
+
+receivers:
+- name: 'line-and-email-notifier'
+  webhook_configs:
+  - url: 'http://alert-to-line-email:8080/alert'
+    send_resolved: true

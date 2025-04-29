@@ -1,0 +1,17 @@
+{
+	"ulid": "01JSZA205BBM08VPKT5D9YFYEK",
+	"minTime": 1745870401677,
+	"maxTime": 1745877600000,
+	"stats": {
+		"numSamples": 10149120,
+		"numSeries": 21144,
+		"numChunks": 84629
+	},
+	"compaction": {
+		"level": 1,
+		"sources": [
+			"01JSZA205BBM08VPKT5D9YFYEK"
+		]
+	},
+	"version": 1
+}

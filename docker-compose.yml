@@ -1,0 +1,85 @@
+version: '3'
+
+services:
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    restart: always
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus/config:/etc/prometheus
+      - ./prometheus/rules:/etc/prometheus/rules
+      - ./prometheus/data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--web.enable-lifecycle'
+    networks:
+      - monitoring
+
+  alertmanager:
+    image: prom/alertmanager:latest
+    container_name: alertmanager
+    restart: always
+    ports:
+      - "9093:9093"
+    volumes:
+      - ./alertmanager/config:/etc/alertmanager
+      - ./alertmanager/data:/alertmanager
+    command:
+      - '--config.file=/etc/alertmanager/alertmanager.yml'
+      - '--storage.path=/alertmanager'
+    networks:
+      - monitoring
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    restart: always
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./grafana/data:/var/lib/grafana
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=Newuser1
+      - GF_USERS_ALLOW_SIGN_UP=false
+    networks:
+      - monitoring
+
+  alert-to-line-email:
+    build: ./alert-to-line-email
+    container_name: alert-to-line-email
+    restart: always
+    ports:
+      - "8080:8080"
+    environment:
+      - LINE_CHANNEL_ACCESS_TOKEN=7zodA9oH/KudRAQT95HzFFah5XoHPe/fhYpWw4NosMLsH/ljmY7gIiMHwSjoWv32R9K1gISwG/Td8pgr9zB8VQCJ1sXrls/fSIVZqKBrB8p1hgZUf90kgaOZs4u7cmE/7/9WNXPRLQSQg+G2wHLtCgdB04t89/1O/w1cDnyilFU=
+      - LINE_TARGET_ID=U35053c3520909c018d0400f5742b0bee
+      - SMTP_SERVER=smtp.ait.ac.th
+      - SMTP_PORT=25
+      - SMTP_USERNAME=sanit@ait.asia
+      - SMTP_PASSWORD=
+      - EMAIL_TO=sanit@ait.asia
+    networks:
+      - monitoring
+
+  health-check:
+    build: ./health-check
+    container_name: health-check
+    restart: always
+    ports:
+      - "8081:8081"
+    volumes:
+      - ./health-check/config:/app/config
+    environment:
+      - CONFIG_PATH=/app/config/servers.json
+    networks:
+      - monitoring
+
+networks:
+  monitoring:
+    driver: bridge
